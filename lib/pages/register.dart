@@ -8,8 +8,6 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   TextEditingController nameController = TextEditingController(text: '');
 
-  TextEditingController phoneController = TextEditingController(text: '');
-
   TextEditingController emailController = TextEditingController(text: '');
 
   TextEditingController passwordController = TextEditingController(text: '');
@@ -18,32 +16,15 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
-    handleRegister() async {
-      setState(() {
-        isLoading = true;
-      });
 
+    handleRegister() async {
       if (await authProvider.register(
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,
       )) {
-        Navigator.pushNamed(context, '/main');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: orangeColor,
-            content: Text(
-              'Gagal Register',
-              textAlign: TextAlign.center,
-            ),
-          ),
-        );
+        Navigator.pushNamed(context, '/home');
       }
-
-      setState(() {
-        isLoading = false;
-      });
     }
 
     Widget header() {
@@ -123,60 +104,6 @@ class _RegisterState extends State<Register> {
                         style: textBlack,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your Username',
-                          hintStyle: textGrey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Widget phoneInput() {
-      return Container(
-        margin: EdgeInsets.only(top: 10, left: 20, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Phone Number',
-              style: textBlack.copyWith(
-                fontSize: 16,
-                fontWeight: medium,
-              ),
-            ),
-            SizedBox(
-              height: 12,
-            ),
-            Container(
-              height: 50,
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              decoration: BoxDecoration(
-                color: formColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'assets/icon_phone.png',
-                      width: 14,
-                    ),
-                    SizedBox(
-                      width: 18,
-                    ),
-                    Expanded(
-                      child: TextFormField(
-                        controller: phoneController,
-                        style: textBlack,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Your Phone Number',
                           hintStyle: textGrey,
                         ),
                       ),
@@ -347,7 +274,6 @@ class _RegisterState extends State<Register> {
           header(),
           textLogin(),
           usernameInput(),
-          phoneInput(),
           emailInput(),
           passwordInput(),
           registerButton(),

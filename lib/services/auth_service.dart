@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:restaurant_app/models/user_model.dart';
+import 'package:http/http.dart' as http;
 
 class AuthService {
-  String baseUrl = 'https://byenspizza8751.dk/panel/public/api';
+  String baseUrl = "https://byenspizza8751.dk/panel/public/api";
 
   Future<UserModel> register({
     String name,
@@ -19,22 +19,21 @@ class AuthService {
       'password': password,
     });
 
-    var response = await http.post(
+    var respone = await http.post(
       url,
       headers: headers,
       body: body,
     );
+    print(respone.body);
 
-    print(response.body);
+    if (respone.statusCode == 200) {
+      var data = jsonDecode(respone.body)['user'];
+      UserModel userModel = UserModel.fromJson(data);
+      userModel.token = ('access_token');
 
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body)['data'];
-      UserModel user = UserModel.fromJson(data['user']);
-      user.token = 'Bearer ' + data['access_token'];
-
-      return user;
+      return userModel;
     } else {
-      throw Exception('Gagal Register');
+      throw Exception('Invalid Register');
     }
   }
 
@@ -49,19 +48,21 @@ class AuthService {
       'password': password,
     });
 
-    var response = await http.post(
+    var respone = await http.post(
       url,
       headers: headers,
       body: body,
     );
+    print(respone.body);
 
-    print(response.body);
+    if (respone.statusCode == 200) {
+      var data = jsonDecode(respone.body)['user'];
+      UserModel userModel = UserModel.fromJson(data);
+      userModel.token = ('access_token');
 
-    if (response.statusCode == 200) {
-      var data = jsonDecode(response.body)['data'];
-      return data;
+      return userModel;
     } else {
-      throw Exception('Gagal Login');
+      throw Exception('Invalid Login');
     }
   }
 }
