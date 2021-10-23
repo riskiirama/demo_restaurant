@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

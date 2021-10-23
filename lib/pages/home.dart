@@ -285,22 +285,6 @@ class AcceptedOrder extends StatefulWidget {
 }
 
 class _AcceptedOrderState extends State<AcceptedOrder> {
-  List<BluetoothDevice> devices = [];
-  BluetoothDevice selectedDevice;
-  BlueThermalPrinter printer = BlueThermalPrinter.instance;
-
-  @override
-  // ignore: override_on_non_overriding_member
-  void iniState() {
-    super.initState();
-    getDevices();
-  }
-
-  void getDevices() async {
-    devices = await printer.getBondedDevices();
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -550,61 +534,13 @@ class _AcceptedOrderState extends State<AcceptedOrder> {
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
-          child: DropdownButton<BluetoothDevice>(
-            value: selectedDevice,
-            hint: const Text('Select Thermal Printer'),
-            onChanged: (devices) {
-              setState(() {
-                selectedDevice = devices;
-              });
-            },
-            items: devices
-                .map(
-                  (e) => DropdownMenuItem(
-                    child: Text(e.name),
-                    value: e,
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TextButton(
                 style: TextButton.styleFrom(
                   backgroundColor: blackColor,
                 ),
-                onPressed: () {
-                  printer.connect(selectedDevice);
-                },
-                child: Text(
-                  'Connect',
-                  style: textWhite.copyWith(
-                    fontSize: 20,
-                    fontWeight: bold,
-                  ),
-                ),
-              ),
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: blackColor,
-                ),
-                onPressed: () async {
-                  if ((await printer.isConnected)) {
-                    printer.printNewLine();
-                    printer.printCustom('Order sunmmary #2534363446', 0, 1);
-                    printer.printQRcode(
-                        'Order sunmmary #2534363446', 200, 200, 1);
-                    printer.printNewLine();
-                    printer.printNewLine();
-                  }
-                },
+                onPressed: () async {},
                 child: Text(
                   'Print',
                   style: textWhite.copyWith(
